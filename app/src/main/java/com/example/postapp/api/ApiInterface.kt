@@ -8,4 +8,7 @@ interface ApiInterface {
 
     @GET("posts")
     suspend fun getPosts(): Response<List<Post>>
+    fun getComments(): Any {
+        TODO("Not yet implemented")
+    }
 }
