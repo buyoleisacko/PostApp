@@ -4,16 +4,15 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.postapp.R
 import com.example.postapp.repository.PostsRepository
 import com.example.postapp.viewmodel.PostsViewModel
 import com.example.postapp.viewmodel.PostsViewModelFactory
-import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var layoutManager: LinearLayoutManager
     lateinit var postsViewModel: PostsViewModel
     lateinit var postsViewModelFactory: PostsViewModelFactory
 
@@ -21,16 +20,17 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        postsViewModelFactory = PostsViewModelFactory(PostsRepository())
-        postsViewModel =
+        postsViewModelFactory = com.example.postapp.viewmodel.PostsViewModelFactory()
+        postsViewModel
             ViewModelProvider(this, postsViewModelFactory).get(PostsViewModel::class.java)
         postsViewModel.getPosts()
         postsViewModel.postsLiveData.observe(this, Observer { posts ->
 
+            val recyclerPost = null
             recyclerPost.apply {
                 layoutManager = LinearLayoutManager(this@MainActivity)
                 hasFixedSize()
-                adapter =PostsAdapter(posts)
+                var adapter = PostsAdapter(posts)
             }
 
             Toast.makeText(baseContext, "${posts.size} posts fetched", Toast.LENGTH_LONG).show()
@@ -40,4 +40,23 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(baseContext, error, Toast.LENGTH_LONG).show()
         })
     }
+
+    private fun hasFixedSize() {
+        TODO("Not yet implemented")
+    }
+
+    private fun ViewModelProvider(
+        mainActivity: MainActivity,
+        postsViewModelFactory: PostsViewModelFactory
+    ): Any {
+        TODO("Not yet implemented")
+    }
+}
+
+private fun Any.get(java: Class<PostsViewModel>) {
+    TODO("Not yet implemented")
+}
+
+class PostsViewModelFactory(postsRepository: PostsRepository) {
+
 }
