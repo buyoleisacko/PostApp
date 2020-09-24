@@ -29,7 +29,7 @@ class CommentsActivity : AppCompatActivity() {
 
         commentsViewModel.commentsLiveData.observe(this, Observer { commentsList->
             rvComments.apply{
-                layoutManager= LinearLayoutManager(this@CommentsActivity)
+                var layoutManager = LinearLayoutManager(this@CommentsActivity)
                 hasFixedSize()
                 adapter= CommentsAdapter(commentsList)
             }
@@ -39,5 +39,9 @@ class CommentsActivity : AppCompatActivity() {
             Toast.makeText(baseContext,error, Toast.LENGTH_LONG).show()
         })
 
+    }
+
+    private fun hasFixedSize() {
+        TODO("Not yet implemented")
     }
 }

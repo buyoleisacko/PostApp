@@ -24,7 +24,3 @@ class PostAppDatabase {
 
     }
 }
-
-class Room {
-
-}
