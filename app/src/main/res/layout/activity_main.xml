@@ -10,12 +10,8 @@
 
 
     <androidx.recyclerview.widget.RecyclerView
-<<<<<<< HEAD
-        android:layout_width="409dp"
-        android:layout_height="354dp"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/textView2"
-=======
+<<<<<<
+        =======
         android:id="@+id/recyclerPost"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

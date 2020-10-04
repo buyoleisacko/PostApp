@@ -1,4 +1,2 @@
 package com.example.postapp.ui
-
-class ToDoActivity {
-}
+data class Todo(var userId: Int, var id)
