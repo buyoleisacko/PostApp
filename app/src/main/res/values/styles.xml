@@ -8,3 +8,8 @@
     </style>
 
 </resources>
+
+<style name="**TextAppearance.TabsFont**" parent="**android:TextAppearance**">
+<item name="android:fontFamily">font/rmedium</item>
+<item name="android:textSize">18sp</item>
+</style>
