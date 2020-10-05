@@ -1,62 +1,30 @@
 package com.example.postapp.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
-import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.navigation.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.navigation.ui.setupWithNavController
 import com.example.postapp.R
-import com.example.postapp.repository.PostsRepository
-import com.example.postapp.viewmodel.PostsViewModel
-import com.example.postapp.viewmodel.PostsViewModelFactory
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import dagger.android.support.DaggerAppCompatActivity
 
-class MainActivity : AppCompatActivity() {
-
-    private lateinit var layoutManager: LinearLayoutManager
-    lateinit var postsViewModel: PostsViewModel
-    lateinit var postsViewModelFactory: PostsViewModelFactory
+class MainActivity : DaggerAppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        val navView: BottomNavigationView = findViewById(R.id.nav_view)
 
-        postsViewModelFactory = com.example.postapp.viewmodel.PostsViewModelFactory()
-        postsViewModel
-            ViewModelProvider(this, postsViewModelFactory).get(PostsViewModel::class.java)
-        postsViewModel.getPosts()
-        postsViewModel.postsLiveData.observe(this, Observer { posts ->
-
-            val recyclerPost = null
-            recyclerPost.apply {
-                layoutManager = LinearLayoutManager(this@MainActivity)
-                hasFixedSize()
-                var adapter = PostsAdapter(posts)
-            }
-
-            Toast.makeText(baseContext, "${posts.size} posts fetched", Toast.LENGTH_LONG).show()
-        })
-
-        postsViewModel.postsFailedLiveData.observe(this, Observer { error ->
-            Toast.makeText(baseContext, error, Toast.LENGTH_LONG).show()
-        })
+        val navController = findNavController(R.id.nav_host_fragment)
+        // Passing each menu ID as a set of Ids because each
+        // menu should be considered as top level destinations.
+        val appBarConfiguration = AppBarConfiguration(
+            setOf(
+                R.id.navigation_todo, R.id.navigation_post, R.id.navigation_comment
+            )
+        )
+        setupActionBarWithNavController(navController, appBarConfiguration)
+        navView.setupWithNavController(navController)
     }
-
-    private fun hasFixedSize() {
-        TODO("Not yet implemented")
-    }
-
-    private fun ViewModelProvider(
-        mainActivity: MainActivity,
-        postsViewModelFactory: PostsViewModelFactory
-    ): Any {
-        TODO("Not yet implemented")
-    }
-}
-
-private fun Any.get(java: Class<PostsViewModel>) {
-    TODO("Not yet implemented")
-}
-
-class PostsViewModelFactory(postsRepository: PostsRepository) {
-
 }
