@@ -1,58 +1,44 @@
 package com.example.postapp.ui
 
-import android.os.Parcel
-import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.postapp.R
-import com.example.postsapp.R
-import com.example.postsapp.models.Comment
-import kotlinx.android.synthetic.main.item_post.view.*
-import kotlinx.android.synthetic.main.row_item_comments.view.*
+import com.example.postapp.data.model.Comment
+import kotlinx.android.synthetic.main.list_comment.view.*
 
-class CommentsAdapter(
-    var comments: List<Comment>
-) : RecyclerView.Adapter<CommentsAdapter.CommentViewHolder>(), Parcelable {
-    class CommentViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
-
-    constructor(parcel: Parcel) : this(TODO("comments")) {
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = CommentViewHolder(
-        LayoutInflater.from(parent.context).inflate(R.layout.row_item_comments, parent, false)
-
-    )
-
-    override fun getItemCount() = comments.size
-
-    override fun onBindViewHolder(holder: CommentViewHolder, position: Int) {
-        var comment = comments[position]
-        holder.itemView.body.text = comment.body
-        holder.itemView.email.text = comment.email
-        holder.itemView.name.text = comment.name
-        holder.itemView.Id.text = comment.id.toString()
-        holder.itemView.postId.text = comment.postId.toString()
-
-
-    }
-
-    override fun writeToParcel(parcel: Parcel, flags: Int) {
-
-    }
-
-    override fun describeContents(): Int {
-        return 0
-    }
-
-    companion object CREATOR : Parcelable.Creator<CommentsAdapter> {
-        override fun createFromParcel(parcel: Parcel): CommentsAdapter {
-            return CommentsAdapter(parcel)
+class CommentAdapter :
+    ListAdapter<Comment, CommentAdapter.CommentVh>(CommentDiff()) {
+    class CommentVh(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        fun bind(item: Comment?) {
+            with(itemView) {
+                item_1.text = item?.name
+                item_2.text = item?.email
+                item_3.text = item?.body
+            }
         }
+    }
 
-        override fun newArray(size: Int): Array<CommentsAdapter?> {
-            return arrayOfNulls(size)
-        }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CommentVh {
+        return CommentVh(
+            LayoutInflater.from(parent.context).inflate(R.layout.list_comment, parent, false)
+        )
+    }
+
+    override fun onBindViewHolder(holder: CommentVh, position: Int) {
+        holder.bind(getItem(position))
+    }
+}
+
+internal class CommentDiff : DiffUtil.ItemCallback<Comment>() {
+    override fun areItemsTheSame(oldItem: Comment, newItem: Comment): Boolean {
+        return oldItem.id == newItem.id
+    }
+
+    override fun areContentsTheSame(oldItem: Comment, newItem: Comment): Boolean {
+        return oldItem == newItem
     }
 }
